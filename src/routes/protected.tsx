@@ -1,16 +1,20 @@
 import { Suspense } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
+import { MainLayout } from '@/components/Layout/MainLayout';
 import { lazyImport } from '@/utils/lazyImport';
 
 const { Dashboard } = lazyImport(() => import('@/features/dashboard'), 'Dashboard');
+const { Surveys } = lazyImport(() => import('@/features/surveys'), 'Surveys');
 
 const App = () => {
   return (
-    <div>
+    <>
       <Suspense fallback={<div className="h-full w-full flex items-center justify-center">Loading...</div>}>
-        <Outlet />
+        <MainLayout>
+          <Outlet />
+        </MainLayout>
       </Suspense>
-    </div>
+    </>
   );
 };
 
@@ -20,9 +24,15 @@ export const protectedRoutes = [
     element: <App />,
     children: [
       { path: '', element: <Dashboard /> },
+      { path: 'surveys', element: <Surveys /> },
 
       { path: '*', element: <Navigate to="." /> },
     ],
   },
   { path: '*', element: <Navigate to="/app" /> },
 ];
+
+export const PRIVATE_ROUTES = {
+  DASHBOARD: '/app',
+  SURVEYS: '/app/surveys',
+};

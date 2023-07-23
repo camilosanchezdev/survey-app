@@ -4,11 +4,11 @@ type InputFieldProps = {
   type?: 'text' | 'email' | 'password';
   id: string;
   className?: string;
-  register: any;
+  register?: any;
   name: string;
+  placeholder: string;
 };
 
-export const InputField = (props: InputFieldProps) => {
-  const { type = 'text', id, register, name } = props;
-  return <InputText id={id} type={type} {...register(name)} />;
-};
+export const InputField = ({ type = 'text', id, register, name, placeholder }: InputFieldProps) => (
+  <InputText id={id} type={type} placeholder={placeholder} {...(register && register(name))} />
+);
