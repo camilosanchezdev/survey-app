@@ -38,7 +38,9 @@ export const LoginForm = () => {
     },
   });
   const onSubmit: SubmitHandler<IFormInput> = () => {
-    // TODO: connect with API
+    // TODO: connect with API - remove localstorage
+    localStorage.setItem('islogged', 'true');
+    location.reload();
   };
   return (
     <Wrapper onSubmit={handleSubmit(onSubmit)}>
