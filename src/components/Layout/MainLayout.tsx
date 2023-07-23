@@ -27,14 +27,13 @@ const Wrapper = styled.main`
   }
   .content {
     grid-column: span 12 / span 12;
+    background: #eeeeee;
     @media ${Breakpoints.Tablet} {
       grid-column: span 9 / span 9;
     }
     @media ${Breakpoints.LaptopL} {
       grid-column: span 10 / span 10;
     }
-
-    background: #fafafa;
   }
 `;
 
