@@ -5,6 +5,7 @@ import { lazyImport } from '@/utils/lazyImport';
 
 const { Dashboard } = lazyImport(() => import('@/features/dashboard'), 'Dashboard');
 const { Surveys } = lazyImport(() => import('@/features/surveys'), 'Surveys');
+const { NewSurvey } = lazyImport(() => import('@/features/surveys'), 'NewSurvey');
 const { SurveyDetail } = lazyImport(() => import('@/features/surveys'), 'SurveyDetail');
 
 const App = () => {
@@ -26,6 +27,7 @@ export const protectedRoutes = [
     children: [
       { path: '', element: <Dashboard /> },
       { path: 'surveys', element: <Surveys /> },
+      { path: 'surveys/new', element: <NewSurvey /> },
       { path: 'surveys/:id', element: <SurveyDetail /> },
 
       { path: '*', element: <Navigate to="." /> },
@@ -37,4 +39,5 @@ export const protectedRoutes = [
 export const PRIVATE_ROUTES = {
   DASHBOARD: '/app',
   SURVEYS: '/app/surveys',
+  NEW_SURVEY: '/app/surveys/new',
 };

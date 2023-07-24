@@ -1,8 +1,10 @@
 import { TabPanel, TabView } from 'primereact/tabview';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { Button } from '@/components/Elements/Button';
 import { Navbar } from '@/components/Layout/Navbar';
+import { PRIVATE_ROUTES } from '@/routes/protected';
 import { SurveyList } from '../components/SurveyList';
 import { SurveyListTab } from '../enums/survey-list-tab.enum';
 import { SurveyStatusEnum } from '../enums/survey-status.enum';
@@ -51,6 +53,7 @@ const mockData = [
 ];
 
 export const Surveys = () => {
+  const navigate = useNavigate();
   const [products, setProducts] = useState<ISurveyListItem[]>(mockData);
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const onTabChange = (index: number) => {
@@ -77,7 +80,7 @@ export const Surveys = () => {
       <Navbar title="Surveys" icon="pi pi-file" />
       <Content>
         <div className="" style={{ display: 'flex', justifyContent: 'flex-end', margin: '20px 0' }}>
-          <Button icon="pi pi-plus" label="Add item" />
+          <Button icon="pi pi-plus" label="Add item" onClick={() => navigate(PRIVATE_ROUTES.NEW_SURVEY)} />
         </div>
         <TabView onTabChange={(e) => onTabChange(e.index)} activeIndex={activeIndex}>
           <TabPanel header="All">
