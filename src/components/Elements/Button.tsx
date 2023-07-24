@@ -22,7 +22,7 @@ export const Button = ({
   tooltip,
   text,
   rounded = false,
-  severity = 'info',
+  severity,
   type = 'button',
 }: ButtonProps) => {
   return (

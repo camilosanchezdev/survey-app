@@ -1,11 +1,16 @@
-import { styled } from 'styled-components';
+import styled from 'styled-components';
+import { Navbar } from '@/components/Layout/Navbar';
 
 const Wrapper = styled.section`
   min-height: 100vh;
-  padding: 20px;
+  margin: 3px 0;
+`;
+
+const Content = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+  margin: 0 10px;
   .row-1 {
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -65,18 +70,21 @@ const Wrapper = styled.section`
 export const Dashboard = () => {
   return (
     <Wrapper>
-      <div className="row-1">
-        <div className="sales-overview"></div>
-        <div className="purchase-overview"></div>
-      </div>
-      <div className="row-2">
-        <div className="inventory-summary"></div>
-        <div className="product-details"></div>
-        <div className="nro-users"></div>
-      </div>
-      <div className="row-3">
-        <div className="sales-and-purchase"></div>
-      </div>
+      <Navbar title="Dashboard" icon="pi pi-th-large" />
+      <Content>
+        <div className="row-1">
+          <div className="sales-overview"></div>
+          <div className="purchase-overview"></div>
+        </div>
+        <div className="row-2">
+          <div className="inventory-summary"></div>
+          <div className="product-details"></div>
+          <div className="nro-users"></div>
+        </div>
+        <div className="row-3">
+          <div className="sales-and-purchase"></div>
+        </div>
+      </Content>
     </Wrapper>
   );
 };
