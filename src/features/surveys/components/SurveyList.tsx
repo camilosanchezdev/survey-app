@@ -2,6 +2,8 @@ import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Tag } from 'primereact/tag';
+import { useNavigate } from 'react-router-dom';
+import { PRIVATE_ROUTES } from '@/routes/protected';
 import { SurveyStatusEnum } from '../enums/survey-status.enum';
 import { ISurveyListItem } from '../interfaces/survey-list-item.interface';
 
@@ -9,6 +11,7 @@ type SurveyListProps = {
   products: ISurveyListItem[];
 };
 export const SurveyList = ({ products }: SurveyListProps) => {
+  const navigate = useNavigate();
   const getSeverity = (statusId: number) => {
     switch (statusId) {
       case SurveyStatusEnum.ACTIVE:
@@ -29,7 +32,13 @@ export const SurveyList = ({ products }: SurveyListProps) => {
   };
   const actionBodyTemplate = (survey: ISurveyListItem) => (
     <div style={{ display: 'flex', gap: '20px' }}>
-      <Button icon="pi pi-eye" rounded outlined onClick={() => {}} tooltip="Details" />
+      <Button
+        icon="pi pi-eye"
+        rounded
+        outlined
+        onClick={() => navigate(`${PRIVATE_ROUTES.SURVEYS}/${survey.id}`)}
+        tooltip="Details"
+      />
       {survey.status.id === SurveyStatusEnum.ACTIVE && (
         <Button icon="pi pi-check" rounded outlined severity="success" onClick={() => {}} tooltip="Mark as completed" />
       )}
