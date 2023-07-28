@@ -46,11 +46,11 @@ export const LoginForm = () => {
     <Wrapper onSubmit={handleSubmit(onSubmit)}>
       <div className="form-control">
         <label htmlFor="email">Email</label>
-        <InputField id="email" type="email" register={register} name="email" />
+        <InputField id="email" type="email" register={register('email')} />
       </div>
       <div className="form-control">
         <label htmlFor="password">Password</label>
-        <InputField id="password" type="password" register={register} name="password" />
+        <InputField id="password" type="password" register={register('password')} />
       </div>
       <div className="action">
         <Button type="submit" label="Login" />

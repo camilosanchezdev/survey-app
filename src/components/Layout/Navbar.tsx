@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
 const Wrapper = styled.nav`
@@ -7,6 +8,11 @@ const Wrapper = styled.nav`
   align-items: center;
   padding: 0 20px;
   margin: 0 0 20px 0;
+  button {
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+  }
   div {
     display: flex;
     align-items: center;
@@ -32,11 +38,18 @@ const Wrapper = styled.nav`
 type NavbarProps = {
   title: string;
   icon: string;
+  navigation?: boolean;
 };
-export const Navbar = ({ title, icon }: NavbarProps) => {
+export const Navbar = ({ title, icon, navigation = false }: NavbarProps) => {
+  const navigate = useNavigate();
   return (
     <Wrapper>
       <div>
+        {navigation && (
+          <button onClick={() => navigate(-1)}>
+            <i className="pi pi-arrow-left"></i>
+          </button>
+        )}
         <span>
           <i className={icon}></i>
         </span>

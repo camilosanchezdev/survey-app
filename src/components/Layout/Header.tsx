@@ -73,7 +73,7 @@ export const Header = ({ openSidebar }: HeaderProps) => {
       <div className="search">
         <span className="p-input-icon-left">
           <i className="pi pi-search" />
-          <InputField id="search" name="search" placeholder="Search anything..." />
+          <InputField id="search" register={null} placeholder="Search anything..." />
         </span>
       </div>
       <div className="menu">

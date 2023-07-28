@@ -36,6 +36,7 @@ const Wrapper = styled.aside`
       li {
         list-style: none;
         button {
+          cursor: pointer;
           display: flex;
           border: 0;
           background: transparent;

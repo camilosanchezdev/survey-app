@@ -10,6 +10,7 @@ export type ButtonProps = {
   severity?: 'info' | 'secondary' | 'success' | 'warning' | 'danger' | 'help';
   size?: 'small' | 'large';
   tooltip?: string;
+  outlined?: boolean;
   onClick?: () => void;
 };
 
@@ -23,6 +24,7 @@ export const Button = ({
   text,
   rounded = false,
   severity,
+  outlined,
   type = 'button',
 }: ButtonProps) => {
   return (
@@ -33,7 +35,7 @@ export const Button = ({
       label={label}
       icon={icon}
       // autoFocus={autoFocus}
-
+      outlined={outlined}
       severity={severity}
       rounded={rounded}
       tooltip={tooltip}
