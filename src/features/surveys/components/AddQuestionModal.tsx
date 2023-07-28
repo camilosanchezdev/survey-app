@@ -7,6 +7,8 @@ import { styled } from 'styled-components';
 import { Button } from '@/components/Elements/Button';
 import { InputField } from '@/components/Form/InputField';
 import { RadioButton } from '@/components/Form/RadioButton';
+import { displayNotification } from '@/components/Notifications/notificationSlice';
+import { useAppDispatch } from '@/hooks/typedReduxHooks';
 import { SurveyQuestionType } from '../enums/survey-question-type.enum';
 import { IQuestionForm } from '../interfaces/question-form.interface';
 
@@ -57,10 +59,13 @@ interface IFormInput {
 }
 
 type AddQuestionModalProps = {
+  openModal: boolean;
+  closeModal: () => void;
   addQuestion: (questionToAdd: IQuestionForm) => void;
 };
-export const AddQuestionModal = ({ addQuestion }: AddQuestionModalProps) => {
-  const [visible, setVisible] = useState<boolean>(false);
+export const AddQuestionModal = ({ openModal, addQuestion, closeModal }: AddQuestionModalProps) => {
+  const dispatch = useAppDispatch();
+  // const [visible, setVisible] = useState<boolean>(false);
   const [answers, setAnswers] = useState<AnswerInput[]>([]);
   const { register, handleSubmit, watch, reset, control } = useForm({
     defaultValues: {
@@ -71,19 +76,22 @@ export const AddQuestionModal = ({ addQuestion }: AddQuestionModalProps) => {
   });
   const answerInput = watch('answer');
   const typeInput = watch('type');
-  const closeModal = () => {
+  const closeFormModal = () => {
     setAnswers([]);
     reset({ question: '', type: String(SurveyQuestionType.SIMPLE) });
-    setVisible(false);
+    closeModal();
   };
 
   const onSubmit: SubmitHandler<IFormInput> = (form) => {
-    // if (answers.length < 2) return displayError(); // TODO: dispatch error notification
+    if (answers.length < 2)
+      return dispatch(
+        displayNotification({ severity: 'error', summary: 'Error', detail: 'You must add at least two answers' }),
+      );
     const { question, type } = form;
     const newQuestion: IQuestionForm = { question, type: Number(type), answers: answers.map((ans) => ans.name) };
     addQuestion(newQuestion);
     console.log('form', newQuestion);
-    closeModal();
+    closeFormModal();
   };
   const addNewAnswer = () => {
     if (!answerInput) return;
@@ -108,13 +116,12 @@ export const AddQuestionModal = ({ addQuestion }: AddQuestionModalProps) => {
 
   return (
     <>
-      <Button label="Add question" icon="pi pi-plus" type="button" onClick={() => setVisible(true)} />
       <Dialog
         header="Add a new question"
-        visible={visible}
+        visible={openModal}
         draggable={false}
         style={{ width: '25vw' }}
-        onHide={() => closeModal()}
+        onHide={() => closeFormModal()}
       >
         <Form onSubmit={handleSubmit(onSubmit)}>
           <FormControl>

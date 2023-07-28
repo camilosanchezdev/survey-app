@@ -2,6 +2,7 @@ import { Sidebar as SidebarResponsive } from 'primereact/sidebar';
 import React, { useState } from 'react';
 import { styled } from 'styled-components';
 import { Breakpoints } from '@/utils/breakpoints';
+import { Notifications } from '../Notifications/Notifications';
 import { Header } from './Header';
 import { Sidebar } from './Sidebar';
 
@@ -56,6 +57,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
         <Header openSidebar={() => setVisible(!visible)} />
         {children}
       </div>
+      <Notifications />
     </Wrapper>
   );
 };
