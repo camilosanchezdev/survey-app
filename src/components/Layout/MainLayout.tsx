@@ -7,7 +7,6 @@ import { Header } from './Header';
 import { Sidebar } from './Sidebar';
 
 const Wrapper = styled.main`
-  min-height: 100vh;
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
 

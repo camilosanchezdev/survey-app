@@ -7,11 +7,14 @@ import { SurveyQuestionType } from '../enums/survey-question-type.enum';
 import { IQuestionReport } from '../interfaces/question-report.interface';
 
 const Wrapper = styled.section`
-  min-height: 100vh;
   margin: 3px 0;
 `;
 const Content = styled.div`
-  margin: 0 20px;
+  min-height: calc(100vh - 205px);
+  background-color: white;
+  margin: 0 20px 20px 20px;
+  padding: 40px;
+  border-radius: 20px;
 `;
 const FormControl = styled.div`
   display: flex;

@@ -10,11 +10,15 @@ import { SurveyQuestionType } from '../enums/survey-question-type.enum';
 import { IQuestionForm } from '../interfaces/question-form.interface';
 
 const Wrapper = styled.section`
-  min-height: 100vh;
   margin: 3px 0;
 `;
 const Content = styled.div`
-  margin: 0 20px;
+  position: relative;
+  min-height: calc(100vh - 205px);
+  background-color: white;
+  margin: 0 20px 20px 20px;
+  padding: 40px;
+  border-radius: 20px;
 `;
 const FormControl = styled.div`
   display: flex;
@@ -32,6 +36,8 @@ const Title = styled.h2`
   margin: 0 0 20px 0;
 `;
 const Actions = styled.div`
+  position: absolute;
+  bottom: 0;
   margin: 40px 0;
   display: flex;
   gap: 20px;
@@ -44,7 +50,12 @@ const Header = styled.div`
   flex-direction: column;
   gap: 0px;
   justify-content: center;
-  margin: 20px 0;
+  margin: 20px 0 0 0;
+`;
+const Menu = styled.div`
+  display: flex;
+  gap: 10px;
+  margin: 0 0 20px 0;
   button {
     height: 40px;
     width: 120px;
@@ -73,13 +84,16 @@ export const SurveyDetail = () => {
       <Navbar title="Survey Detail" icon="pi pi-file" navigation />
       <Content>
         <Header>
+          <Menu>
+            <Button
+              label="Report"
+              type="button"
+              icon="pi pi-chart-bar"
+              onClick={() => navigate('/app/surveys/3/report')}
+            />
+            <Button label="Share" severity="info" type="button" icon="pi pi-send" />
+          </Menu>
           <Title>Survey Prueba title title</Title>
-          <Button
-            label="Report"
-            type="button"
-            icon="pi pi-chart-bar"
-            onClick={() => navigate('/app/surveys/3/report')}
-          />
         </Header>
 
         <Form>
@@ -104,9 +118,9 @@ export const SurveyDetail = () => {
           ))}
         </Form>
         <Actions>
-          <Button label="Mark as Active" severity="info" type="button" icon="pi pi-send" />
-          <Button label="Mark as Completed" severity="success" type="button" icon="pi pi-check" />
-          <Button label="Mark as Deleted" severity="danger" type="button" icon="pi pi-trash" />
+          <Button label="Mark as Active" severity="info" type="button" icon="pi pi-send" outlined />
+          <Button label="Mark as Completed" severity="success" type="button" icon="pi pi-check" outlined />
+          <Button label="Mark as Deleted" severity="danger" type="button" icon="pi pi-trash" outlined />
         </Actions>
       </Content>
     </Wrapper>
