@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
+import { PageNotFound } from '@/components/Layout/PageNotFound';
 import { Home } from './Home';
 
 export const AuthRoutes = () => {
@@ -9,11 +10,3 @@ export const AuthRoutes = () => {
     </Routes>
   );
 };
-
-function PageNotFound() {
-  return (
-    <div>
-      <h2>404 Page not found</h2>
-    </div>
-  );
-}
