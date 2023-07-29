@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { styled } from 'styled-components';
 import logo from '@/assets/img/logo.png';
 import { PRIVATE_ROUTES } from '@/routes/protected';
@@ -21,7 +21,7 @@ const Menu = styled.div`
 `;
 const Logo = styled.div`
   display: none;
-  padding: 20px;
+  padding: 20px 40px;
   border-bottom: 2px solid #f0f0f0;
   margin: 0 0 20px 0;
   @media ${Breakpoints.Tablet} {
@@ -72,7 +72,9 @@ export const Sidebar = ({ closeSidebar }: SidebarProps) => (
       </div>
     </Menu>
     <Logo>
-      <img src={logo} alt="" />
+      <Link to={PRIVATE_ROUTES.DASHBOARD}>
+        <img src={logo} alt="" />
+      </Link>
     </Logo>
     <div>
       <ul>
