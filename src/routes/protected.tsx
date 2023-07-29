@@ -7,6 +7,7 @@ const { Dashboard } = lazyImport(() => import('@/features/dashboard'), 'Dashboar
 const { Surveys } = lazyImport(() => import('@/features/surveys'), 'Surveys');
 const { NewSurvey } = lazyImport(() => import('@/features/surveys'), 'NewSurvey');
 const { SurveyDetail } = lazyImport(() => import('@/features/surveys'), 'SurveyDetail');
+const { SurveyReport } = lazyImport(() => import('@/features/surveys'), 'SurveyReport');
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ export const protectedRoutes = [
       { path: 'surveys', element: <Surveys /> },
       { path: 'surveys/new', element: <NewSurvey /> },
       { path: 'surveys/:id', element: <SurveyDetail /> },
+      { path: 'surveys/:id/report', element: <SurveyReport /> },
 
       { path: '*', element: <Navigate to="." /> },
     ],
