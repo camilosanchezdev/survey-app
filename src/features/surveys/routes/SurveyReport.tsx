@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { Button } from '@/components/Elements/Button';
+import { PieChart } from '@/components/Elements/PieChart';
 import { Navbar } from '@/components/Layout/Navbar';
 import { SurveyQuestionType } from '../enums/survey-question-type.enum';
-import { IQuestionForm } from '../interfaces/question-form.interface';
+import { IQuestionReport } from '../interfaces/question-report.interface';
 
 const Wrapper = styled.section`
   min-height: 100vh;
@@ -46,22 +47,31 @@ const Header = styled.div`
     width: 120px;
   }
 `;
-
-const mockedQuestions: IQuestionForm[] = [
+// TODO: remove
+const mockedQuestions: IQuestionReport[] = [
   {
-    question: '¿Cuantas veces vas al supermercado a la semana?',
+    question: '¿Cuantas veces vas al supermercado al mes?',
     type: SurveyQuestionType.SIMPLE,
-    answers: ['test', 'test2'],
+    answers: [
+      { id: '1 vez', value: '5' },
+      { id: '2 veces', value: '4' },
+      { id: '3 veces o más', value: '1' },
+    ],
   },
   {
     question: '¿Qué tecnologías te interesan más?',
     type: SurveyQuestionType.MULTIPLE,
-    answers: ['React', 'Angular', 'Vue'],
+    answers: [
+      { id: 'React', value: '15' },
+      { id: 'Angular', value: '4' },
+      { id: 'Vue', value: '12' },
+    ],
   },
 ];
 
 export const SurveyReport = () => {
-  const [questions] = useState<IQuestionForm[]>(mockedQuestions);
+  const [questions] = useState<IQuestionReport[]>(mockedQuestions);
+
   return (
     <Wrapper>
       <Navbar title="Survey Report" icon="pi pi-file" navigation />
@@ -75,11 +85,12 @@ export const SurveyReport = () => {
           {questions.map((item, key) => (
             <FormControl key={`${key}-${item.question}`}>
               <h3>{`${key + 1}. ${item.question}`}</h3>
+              <PieChart data={item.answers} />
             </FormControl>
           ))}
         </Form>
         <Actions>
-          <Button label="Download Report - PDF" severity="info" type="button" icon="pi pi-file-pdf" />
+          <Button label="Download Report - PDF" severity="danger" type="button" icon="pi pi-file-pdf" />
           <Button label="Download Data - CSV" severity="success" type="button" icon="pi pi-file-excel" />
         </Actions>
       </Content>
