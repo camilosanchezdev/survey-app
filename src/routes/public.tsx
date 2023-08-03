@@ -1,6 +1,5 @@
 import { Suspense } from 'react';
-import { Outlet } from 'react-router-dom';
-import { PageNotFound } from '@/components/Layout/PageNotFound';
+import { Navigate, Outlet } from 'react-router-dom';
 import { PublicLayout } from '@/components/Layout/PublicLayout';
 import { lazyImport } from '@/utils/lazyImport';
 
@@ -34,7 +33,7 @@ export const publicRoutes = [
     children: [
       { path: ':id', element: <PublicSurvey /> },
       { path: ':id/success', element: <PublicSurveySuccess /> },
-      { path: '', element: <PageNotFound /> },
+      { path: '', element: <Navigate to="/" /> },
     ],
   },
 ];
