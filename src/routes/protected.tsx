@@ -31,8 +31,6 @@ export const protectedRoutes = [
       { path: 'surveys/new', element: <NewSurvey /> },
       { path: 'surveys/:id', element: <SurveyDetail /> },
       { path: 'surveys/:id/report', element: <SurveyReport /> },
-
-      { path: '*', element: <Navigate to="." /> },
     ],
   },
   { path: '*', element: <Navigate to="/app" /> },

@@ -1,14 +1,15 @@
 import { TabPanel, TabView } from 'primereact/tabview';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { Button } from '@/components/Elements/Button';
 import { Navbar } from '@/components/Layout/Navbar';
 import { PRIVATE_ROUTES } from '@/routes/protected';
+import { useSurveys } from '../api/getSurveys';
 import { SurveyList } from '../components/SurveyList';
 import { SurveyListTab } from '../enums/survey-list-tab.enum';
 import { SurveyStatusEnum } from '../enums/survey-status.enum';
-import { ISurveyListItem } from '../interfaces/survey-list-item.interface';
+import { SurveyListItem } from '../types';
 
 const Wrapper = styled.section`
   min-height: 100vh;
@@ -19,61 +20,54 @@ const Content = styled.div`
   margin: 0 10px;
 `;
 
-const mockData = [
-  {
-    id: 1,
-    title: 'some survey',
-    description: 'test description',
-    createdAt: '2023-07-23',
-    status: {
-      id: SurveyStatusEnum.ACTIVE,
-      name: 'Active',
-    },
-  },
-  {
-    id: 2,
-    title: 'some survey',
-    description: 'test description',
-    createdAt: '2023-07-24',
-    status: {
-      id: SurveyStatusEnum.COMPLETED,
-      name: 'Completed',
-    },
-  },
-  {
-    id: 3,
-    title: 'some survey',
-    description: 'test description',
-    createdAt: '2023-07-24',
-    status: {
-      id: SurveyStatusEnum.DELETED,
-      name: 'Deleted',
-    },
-  },
-];
-
 export const Surveys = () => {
+  const [filterStatusId, setFilterStatusId] = useState(0);
+  const [take, setTake] = useState<number>(10);
+  const [skip, setSkip] = useState<number>(0);
+  const [totalRecords, setTotalRecords] = useState<number>(0);
+  const surveysQuery = useSurveys({ take, skip, surveyStatusId: filterStatusId });
+
   const navigate = useNavigate();
-  const [products, setProducts] = useState<ISurveyListItem[]>(mockData);
+  const [products, setProducts] = useState<SurveyListItem[]>([]);
   const [activeIndex, setActiveIndex] = useState<number>(0);
+
   const onTabChange = (index: number) => {
     setActiveIndex(index);
     switch (index) {
       case SurveyListTab.ALL:
-        setProducts(mockData);
+        setFilterStatusId(0);
+        // setProducts(mockData);
         break;
       case SurveyListTab.ACTIVE:
-        setProducts(mockData.filter((survey) => survey.status.id === SurveyStatusEnum.ACTIVE));
+        setFilterStatusId(SurveyStatusEnum.ACTIVE);
+        break;
+      case SurveyListTab.DRAFT:
+        setFilterStatusId(SurveyStatusEnum.DRAFT);
         break;
       case SurveyListTab.COMPLETED:
-        setProducts(mockData.filter((survey) => survey.status.id === SurveyStatusEnum.COMPLETED));
+        setFilterStatusId(SurveyStatusEnum.COMPLETED);
         break;
       case SurveyListTab.DELETED:
-        setProducts(mockData.filter((survey) => survey.status.id === SurveyStatusEnum.DELETED));
+        setFilterStatusId(SurveyStatusEnum.DELETED);
         break;
       default:
         break;
     }
+  };
+
+  const surveysQueryRefetch = useCallback(async () => {
+    const { data } = await surveysQuery.refetch();
+    if (data) {
+      setProducts(data.data);
+      setTotalRecords(data.totalRecords);
+    }
+  }, []);
+  useEffect(() => {
+    surveysQueryRefetch();
+  }, [filterStatusId, skip, take, surveysQueryRefetch]);
+  const handleChangePage = (elements: number, rows: number) => {
+    setSkip(elements);
+    setTake(rows);
   };
   return (
     <Wrapper>
@@ -84,16 +78,19 @@ export const Surveys = () => {
         </div>
         <TabView onTabChange={(e) => onTabChange(e.index)} activeIndex={activeIndex}>
           <TabPanel header="All">
-            <SurveyList products={products} />
+            <SurveyList products={products} changePage={handleChangePage} total={totalRecords} />
           </TabPanel>
           <TabPanel header="Active">
-            <SurveyList products={products} />
+            <SurveyList products={products} changePage={handleChangePage} total={totalRecords} />
+          </TabPanel>
+          <TabPanel header="Draft">
+            <SurveyList products={products} changePage={handleChangePage} total={totalRecords} />
           </TabPanel>
           <TabPanel header="Completed">
-            <SurveyList products={products} />
+            <SurveyList products={products} changePage={handleChangePage} total={totalRecords} />
           </TabPanel>
           <TabPanel header="Deleted">
-            <SurveyList products={products} />
+            <SurveyList products={products} changePage={handleChangePage} total={totalRecords} />
           </TabPanel>
         </TabView>
       </Content>

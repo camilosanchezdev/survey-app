@@ -65,7 +65,6 @@ type AddQuestionModalProps = {
 };
 export const AddQuestionModal = ({ openModal, addQuestion, closeModal }: AddQuestionModalProps) => {
   const dispatch = useAppDispatch();
-  // const [visible, setVisible] = useState<boolean>(false);
   const [answers, setAnswers] = useState<AnswerInput[]>([]);
   const { register, handleSubmit, watch, reset, control } = useForm({
     defaultValues: {
@@ -90,7 +89,6 @@ export const AddQuestionModal = ({ openModal, addQuestion, closeModal }: AddQues
     const { question, type } = form;
     const newQuestion: IQuestionForm = { question, type: Number(type), answers: answers.map((ans) => ans.name) };
     addQuestion(newQuestion);
-    console.log('form', newQuestion);
     closeFormModal();
   };
   const addNewAnswer = () => {

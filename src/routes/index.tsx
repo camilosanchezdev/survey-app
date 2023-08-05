@@ -15,9 +15,6 @@ export const AppRoutes = () => {
     }
   }, [dispatch]);
   const isAuth = isAuthenticated();
-
-  // const commonRoutes = [{ path: "/", element: <Landing /> }];
-
   const routes = isAuth ? protectedRoutes : publicRoutes;
   const element = useRoutes([...routes]);
   return <>{element}</>;

@@ -10,7 +10,7 @@ function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   config.headers = {
     ...config.headers,
     Accept: 'application/json',
-    ...(token && { Authorization: `${token}` }),
+    ...(token && { Authorization: `Bearer ${token}` }),
   };
   return config;
 }
