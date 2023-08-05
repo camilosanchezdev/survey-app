@@ -31,24 +31,27 @@ export const Surveys = () => {
   const [products, setProducts] = useState<SurveyListItem[]>([]);
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
+  const setSurveyStatus = (statusId: number) => {
+    setFilterStatusId(statusId);
+    setSkip(0);
+  };
   const onTabChange = (index: number) => {
     setActiveIndex(index);
     switch (index) {
       case SurveyListTab.ALL:
-        setFilterStatusId(0);
-        // setProducts(mockData);
+        setSurveyStatus(0);
         break;
       case SurveyListTab.ACTIVE:
-        setFilterStatusId(SurveyStatusEnum.ACTIVE);
+        setSurveyStatus(SurveyStatusEnum.ACTIVE);
         break;
       case SurveyListTab.DRAFT:
-        setFilterStatusId(SurveyStatusEnum.DRAFT);
+        setSurveyStatus(SurveyStatusEnum.DRAFT);
         break;
       case SurveyListTab.COMPLETED:
-        setFilterStatusId(SurveyStatusEnum.COMPLETED);
+        setSurveyStatus(SurveyStatusEnum.COMPLETED);
         break;
       case SurveyListTab.DELETED:
-        setFilterStatusId(SurveyStatusEnum.DELETED);
+        setSurveyStatus(SurveyStatusEnum.DELETED);
         break;
       default:
         break;
@@ -78,19 +81,44 @@ export const Surveys = () => {
         </div>
         <TabView onTabChange={(e) => onTabChange(e.index)} activeIndex={activeIndex}>
           <TabPanel header="All">
-            <SurveyList products={products} changePage={handleChangePage} total={totalRecords} />
+            <SurveyList
+              products={products}
+              changePage={handleChangePage}
+              total={totalRecords}
+              refetchRecords={surveysQueryRefetch}
+            />
           </TabPanel>
           <TabPanel header="Active">
-            <SurveyList products={products} changePage={handleChangePage} total={totalRecords} />
+            <SurveyList
+              products={products}
+              changePage={handleChangePage}
+              total={totalRecords}
+              refetchRecords={surveysQueryRefetch}
+            />
           </TabPanel>
           <TabPanel header="Draft">
-            <SurveyList products={products} changePage={handleChangePage} total={totalRecords} />
+            <SurveyList
+              products={products}
+              changePage={handleChangePage}
+              total={totalRecords}
+              refetchRecords={surveysQueryRefetch}
+            />
           </TabPanel>
           <TabPanel header="Completed">
-            <SurveyList products={products} changePage={handleChangePage} total={totalRecords} />
+            <SurveyList
+              products={products}
+              changePage={handleChangePage}
+              total={totalRecords}
+              refetchRecords={surveysQueryRefetch}
+            />
           </TabPanel>
           <TabPanel header="Deleted">
-            <SurveyList products={products} changePage={handleChangePage} total={totalRecords} />
+            <SurveyList
+              products={products}
+              changePage={handleChangePage}
+              total={totalRecords}
+              refetchRecords={surveysQueryRefetch}
+            />
           </TabPanel>
         </TabView>
       </Content>

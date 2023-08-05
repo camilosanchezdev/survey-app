@@ -1,14 +1,9 @@
 /* eslint-disable no-restricted-imports */
 import { LoginCredentialsDTO, loginWithEmailAndPassword } from '@/features/auth/api/login';
+import { BaseResponse } from '@/types/base-response.type';
 import storage from '@/utils/storage';
 
-type LoginFnResponse = {
-  success: boolean;
-  successData?: string;
-  error?: any;
-};
-
-async function loginFn(data: LoginCredentialsDTO): Promise<LoginFnResponse> {
+async function loginFn(data: LoginCredentialsDTO): Promise<BaseResponse> {
   try {
     const response = await loginWithEmailAndPassword(data);
     const token = response.access_token;
