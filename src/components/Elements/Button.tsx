@@ -11,6 +11,7 @@ export type ButtonProps = {
   size?: 'small' | 'large';
   tooltip?: string;
   outlined?: boolean;
+  disabled?: boolean;
   onClick?: () => void;
 };
 
@@ -25,6 +26,7 @@ export const Button = ({
   rounded = false,
   severity,
   outlined,
+  disabled,
   type = 'button',
 }: ButtonProps) => {
   return (
@@ -40,6 +42,7 @@ export const Button = ({
       rounded={rounded}
       tooltip={tooltip}
       text={text}
+      disabled={disabled}
     >
       {/* <span className="mx-2">{children}</span> */}
     </Btn>
