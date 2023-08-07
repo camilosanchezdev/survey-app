@@ -10,6 +10,7 @@ type ConfirmDialogCustomProps = {
 export const ConfirmDialogCustom = ({ openModal, title, subtitle, icon, closeDialog }: ConfirmDialogCustomProps) => {
   return (
     <ConfirmDialog
+      onHide={() => closeDialog(false)}
       header={title}
       message={subtitle}
       visible={openModal}

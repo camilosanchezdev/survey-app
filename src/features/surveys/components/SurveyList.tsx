@@ -144,48 +144,43 @@ export const SurveyList = ({ products, total, changePage, refetchRecords }: Surv
     setChangeSurveyStatus(statusId);
   };
 
-  const handleMarkAsRemoved = async (result: boolean) => {
+  const handleNotification = (success: boolean, successMessage: string) => {
+    if (success) {
+      dispatch(displayNotification({ severity: 'success', summary: 'Success', detail: successMessage }));
+      refetchRecords();
+    } else {
+      dispatch(displayNotification({ severity: 'error', summary: 'Error', detail: 'Something goes wrong' }));
+    }
+  };
+  const handleResetActionModal = () => {
     setConfirmDialog(false);
+    setChangeSurveyStatus(undefined);
+    setSurveySelected(undefined);
+  };
+
+  const handleMarkAsRemoved = async (result: boolean) => {
+    handleResetActionModal();
     if (!result) return;
     const res = await markSurveyAsDeletedMutation.mutateAsync({
       surveyId: Number(surveySelected),
     });
-    if (res.success) {
-      dispatch(displayNotification({ severity: 'success', summary: 'Success', detail: 'Survey removed successfully' }));
-      refetchRecords();
-    } else {
-      dispatch(displayNotification({ severity: 'error', summary: 'Error', detail: 'Something goes wrong' }));
-    }
+    handleNotification(res.success, 'Survey removed successfully');
   };
   const handleMarkAsActivated = async (result: boolean) => {
-    setConfirmDialog(false);
+    handleResetActionModal();
     if (!result) return;
     const res = await markSurveyAsActivatedMutation.mutateAsync({
       surveyId: Number(surveySelected),
     });
-    if (res.success) {
-      dispatch(
-        displayNotification({ severity: 'success', summary: 'Success', detail: 'Survey activated successfully' }),
-      );
-      refetchRecords();
-    } else {
-      dispatch(displayNotification({ severity: 'error', summary: 'Error', detail: 'Something goes wrong' }));
-    }
+    handleNotification(res.success, 'Survey activated successfully');
   };
   const handleMarkAsCompleted = async (result: boolean) => {
-    setConfirmDialog(false);
+    handleResetActionModal();
     if (!result) return;
     const res = await markSurveyAsCompletedMutation.mutateAsync({
       surveyId: Number(surveySelected),
     });
-    if (res.success) {
-      dispatch(
-        displayNotification({ severity: 'success', summary: 'Success', detail: 'Survey completed successfully' }),
-      );
-      refetchRecords();
-    } else {
-      dispatch(displayNotification({ severity: 'error', summary: 'Error', detail: 'Something goes wrong' }));
-    }
+    handleNotification(res.success, 'Survey completed successfully');
   };
 
   if (products.length === 0) return <p>No surveys...</p>;
