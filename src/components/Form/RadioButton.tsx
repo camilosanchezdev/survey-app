@@ -10,7 +10,7 @@ const Wrapper = styled.label`
   }
 `;
 type RadioButtonProps = {
-  value: string;
+  value: string | boolean;
   label: string;
   name: string;
   control: any;
@@ -23,7 +23,7 @@ export const RadioButton = ({ name, value, control, label, required = true }: Ra
     rules={{ required }}
     render={({ field }) => (
       <Wrapper>
-        <Input id={value} inputId={value} {...field} value={value} checked={field.value === value} />
+        <Input id={name} inputId={name} {...field} value={value} checked={field.value === value} />
         <small>{label}</small>
       </Wrapper>
     )}

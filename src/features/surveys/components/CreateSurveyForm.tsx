@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { Button } from '@/components/Elements/Button';
 import { Checkbox } from '@/components/Form/Checkbox';
@@ -8,8 +9,9 @@ import { InputTextarea } from '@/components/Form/InputTextarea';
 import { RadioButton } from '@/components/Form/RadioButton';
 import { displayNotification } from '@/components/Notifications/notificationSlice';
 import { useAppDispatch } from '@/hooks/typedReduxHooks';
-import { SurveyQuestionType } from '../enums/survey-question-type.enum';
-import { IQuestionForm } from '../interfaces/question-form.interface';
+import { PRIVATE_ROUTES } from '@/routes/protected';
+import { useCreateSurvey } from '../api/createSurvey';
+import { SurveyQuestionType } from '../types/survey-question.type';
 import { AddQuestionModal } from './AddQuestionModal';
 
 const Wrapper = styled.div`
@@ -37,7 +39,7 @@ const Actions = styled.div`
 interface CreateSurveyRequest {
   title: string;
   description: string;
-  questions: IQuestionForm[];
+  surveyQuestions: SurveyQuestionType[];
 }
 
 interface IFormInput {
@@ -45,8 +47,10 @@ interface IFormInput {
   description: string;
 }
 export const CreateSurveyForm = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [questions, setQuestions] = useState<IQuestionForm[]>([]);
+  const createSurveyMutation = useCreateSurvey();
+  const [questions, setQuestions] = useState<SurveyQuestionType[]>([]);
   const [openQuestionFormModal, setOpenQuestionFormModal] = useState(false);
   const { register, handleSubmit, control } = useForm({
     defaultValues: {
@@ -58,21 +62,30 @@ export const CreateSurveyForm = () => {
     return {
       title: form.title,
       description: form.description,
-      questions: questions,
+      surveyQuestions: questions,
     };
   };
-  const onSubmit: SubmitHandler<IFormInput> = (form) => {
+  const onSubmit: SubmitHandler<IFormInput> = async (form) => {
     if (questions.length === 0)
       return dispatch(
         displayNotification({ severity: 'error', summary: 'Error', detail: 'You must add at least one question' }),
       );
 
     const request = createRequest(form);
-    console.log('request', request);
+    const res = await createSurveyMutation.mutateAsync(request);
+    if (res.success) {
+      dispatch(displayNotification({ severity: 'success', summary: 'Success', detail: 'Survey created successfully' }));
+      navigate(PRIVATE_ROUTES.SURVEYS);
+    } else {
+      dispatch(
+        displayNotification({ severity: 'error', summary: 'Error', detail: 'You must add at least one question' }),
+      );
+    }
   };
-  const handleAddQuestion = (questionToAdd: IQuestionForm) => {
+  const handleAddQuestion = (questionToAdd: SurveyQuestionType) => {
     setQuestions([...questions, questionToAdd]);
   };
+
   return (
     <Wrapper>
       <Form onSubmit={handleSubmit(onSubmit)}>
@@ -85,21 +98,27 @@ export const CreateSurveyForm = () => {
           <InputTextarea id="description" register={register('description', { required: true })} />
         </FormControl>
         {questions.map((item, key) => (
-          <FormControl key={`${key}-${item.question}`}>
-            <h2>{`${key + 1}. ${item.question}`}</h2>
-            {item.type === SurveyQuestionType.SIMPLE
-              ? item.answers.map((answer) => (
-                  <RadioButton
-                    key={answer}
-                    value={answer}
-                    label={answer}
-                    name={item.question}
+          <FormControl key={`${key}-${item.name}`}>
+            <h2>{`${key + 1}. ${item.name}`}</h2>
+            {item.multiple
+              ? item.surveyAnswers.map((answer) => (
+                  <Checkbox
+                    key={answer.name}
+                    label={answer.name}
+                    name={answer.name}
                     control={control}
                     required={false}
                   />
                 ))
-              : item.answers.map((answer) => (
-                  <Checkbox key={answer} label={answer} name={answer} control={control} required={false} />
+              : item.surveyAnswers.map((answer) => (
+                  <RadioButton
+                    key={answer.name}
+                    value={answer.name}
+                    label={answer.name}
+                    name={`${item.name}-${key}`}
+                    control={control}
+                    required={false}
+                  />
                 ))}
           </FormControl>
         ))}

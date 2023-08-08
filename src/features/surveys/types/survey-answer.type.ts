@@ -1,4 +1,4 @@
 export type SurveyAnswersType = {
-  id: number;
+  id?: number;
   name: string;
 };
