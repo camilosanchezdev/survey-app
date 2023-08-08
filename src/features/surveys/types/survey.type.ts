@@ -4,7 +4,7 @@ export type SurveyType = {
   id: number;
   title: string;
   description: string;
-  public: string;
+  publicLink: string;
   surveyStatusId: number;
   surveyQuestions: SurveyQuestionType[];
 };

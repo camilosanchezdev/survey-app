@@ -13,6 +13,7 @@ import { useSurvey } from '../api/getSurvey';
 import { useMarkSurveyAsActivated } from '../api/markSurveyAsActivated';
 import { useMarkSurveyAsCompleted } from '../api/markSurveyAsCompleted';
 import { useMarkSurveyAsDeleted } from '../api/markSurveyAsDeleted';
+import { ShareSurveyModal } from '../components/ShareSurveyModal';
 import { SurveyStatusEnum } from '../enums/survey-status.enum';
 import { SurveyType } from '../types/survey.type';
 
@@ -91,6 +92,7 @@ export const SurveyDetail = () => {
 
   const [survey, setSurvey] = useState<SurveyType>();
   const [confirmDialog, setConfirmDialog] = useState(false);
+  const [shareModal, setShareModal] = useState(false);
   const [changeSurveyStatus, setChangeSurveyStatus] = useState<number>();
 
   const refetchSurvey = async () => {
@@ -159,7 +161,15 @@ export const SurveyDetail = () => {
                   icon="pi pi-chart-bar"
                   onClick={() => navigate('/app/surveys/3/report')}
                 />
-                <Button label="Share" severity="info" type="button" icon="pi pi-send" />
+                {survey.surveyStatusId === SurveyStatusEnum.ACTIVE ? (
+                  <Button
+                    label="Share"
+                    severity="info"
+                    type="button"
+                    icon="pi pi-send"
+                    onClick={() => setShareModal(true)}
+                  />
+                ) : null}
               </MenuActions>
               <SurveyStatus>
                 {survey.surveyStatusId === SurveyStatusEnum.ACTIVE ? (
@@ -267,6 +277,12 @@ export const SurveyDetail = () => {
               closeDialog={(data) => handleMarkAsCompleted(data)}
             />
           ) : null}
+
+          <ShareSurveyModal
+            publicLink={survey.publicLink}
+            visible={shareModal}
+            closeModal={() => setShareModal(false)}
+          />
         </Content>
       ) : null}
     </Wrapper>
