@@ -24,7 +24,7 @@ const App = () => {
 
 export const publicRoutes = [
   {
-    path: '*',
+    path: '/*',
     element: <AuthRoutes />,
   },
   {
@@ -36,4 +36,5 @@ export const publicRoutes = [
       { path: '', element: <Navigate to="/" /> },
     ],
   },
+  { path: '*', element: <Navigate to="." /> },
 ];
