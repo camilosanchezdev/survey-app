@@ -38,3 +38,8 @@ export const publicRoutes = [
   },
   { path: '*', element: <Navigate to="." /> },
 ];
+
+export const PUBLIC_ROUTES = {
+  HOME: '/',
+  SURVEY: '/survey',
+};

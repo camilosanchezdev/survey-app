@@ -15,7 +15,7 @@ export const AppRoutes = () => {
     }
   }, [dispatch]);
   const isAuth = isAuthenticated();
-  const routes = isAuth ? protectedRoutes : publicRoutes;
-  const element = useRoutes([...routes]);
+  const routes = isAuth ? protectedRoutes : [];
+  const element = useRoutes([...publicRoutes, ...routes]);
   return <>{element}</>;
 };
