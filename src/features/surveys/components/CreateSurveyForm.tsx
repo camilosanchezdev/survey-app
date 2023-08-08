@@ -103,6 +103,7 @@ export const CreateSurveyForm = () => {
             {item.multiple
               ? item.surveyAnswers.map((answer) => (
                   <Checkbox
+                    id={answer.name}
                     key={answer.name}
                     label={answer.name}
                     name={answer.name}

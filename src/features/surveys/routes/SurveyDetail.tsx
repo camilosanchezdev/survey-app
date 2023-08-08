@@ -197,6 +197,7 @@ export const SurveyDetail = () => {
                 {item.multiple
                   ? item.surveyAnswers?.map((answer) => (
                       <Checkbox
+                        id={String(answer.id)}
                         key={answer.id}
                         label={answer.name}
                         name={answer.name}
