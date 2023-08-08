@@ -1,4 +1,5 @@
 import { Dialog } from 'primereact/dialog';
+import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Button } from '@/components/Elements/Button';
 import { InputField } from '@/components/Form/InputField';
@@ -16,17 +17,26 @@ type ShareSurveyProps = {
 };
 export const ShareSurveyModal = ({ visible, publicLink, closeModal }: ShareSurveyProps) => {
   const dispatch = useAppDispatch();
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, setValue } = useForm({
     defaultValues: {
       publicLink,
     },
   });
+  useEffect(() => {
+    if (publicLink) setValue('publicLink', `${window.location.origin}/survey/${publicLink}`);
+  }, [publicLink, setValue]);
   const onSubmit: SubmitHandler<IFormInput> = async (form) => {
     navigator.clipboard.writeText(form.publicLink);
     dispatch(displayNotification({ severity: 'info', summary: 'Copied', detail: 'Link copied successfully' }));
   };
   return (
-    <Dialog header="Public Link" visible={visible} style={{ width: '25vw' }} onHide={() => closeModal()}>
+    <Dialog
+      header="Public Link"
+      visible={visible}
+      style={{ width: '25vw' }}
+      onHide={() => closeModal()}
+      draggable={false}
+    >
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="p-inputgroup">
           <InputField id="question" register={register('publicLink', { required: false })} color="black" disabled />
