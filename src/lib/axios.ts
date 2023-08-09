@@ -1,4 +1,4 @@
-import Axios, { InternalAxiosRequestConfig } from 'axios';
+import Axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 // import type { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
 
 import { API_URL } from '@/config';
@@ -24,8 +24,13 @@ axios.interceptors.response.use(
   (response) => {
     return response.data;
   },
-  (error) => {
-    const message = error.response?.data?.message || error.message;
+  (error: AxiosError) => {
+    const message = error.response?.statusText || error.message;
+    if (error.response?.status === 401) {
+      // Unauthorized
+      storage.clearToken();
+    }
+
     console.error({
       type: 'error',
       title: 'Error',
