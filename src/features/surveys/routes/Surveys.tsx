@@ -77,7 +77,7 @@ export const Surveys = () => {
       <Navbar title="Surveys" icon="pi pi-file" />
       <Content>
         <div className="" style={{ display: 'flex', justifyContent: 'flex-end', margin: '20px 0' }}>
-          <Button icon="pi pi-plus" label="Add item" onClick={() => navigate(PRIVATE_ROUTES.NEW_SURVEY)} />
+          <Button icon="pi pi-plus" label="Add Survey" onClick={() => navigate(PRIVATE_ROUTES.NEW_SURVEY)} />
         </div>
         <TabView onTabChange={(e) => onTabChange(e.index)} activeIndex={activeIndex}>
           <TabPanel header="All">

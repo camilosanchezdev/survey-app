@@ -63,7 +63,7 @@ export const SurveyReport = () => {
       <Content>
         <Header>
           <Title>{data.title}</Title>
-          <p>{data.totalResponses === 0 ? 'Theres not yet responses' : `${data.totalResponses} responses`}</p>
+          <p>{data.totalResponses === 0 ? 'No answers yet' : `${data.totalResponses} responses`}</p>
         </Header>
 
         {data.totalResponses > 0 ? (
