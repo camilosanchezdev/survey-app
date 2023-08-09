@@ -1,10 +1,9 @@
-import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Button } from '@/components/Elements/Button';
 import { PieChart } from '@/components/Elements/PieChart';
 import { Navbar } from '@/components/Layout/Navbar';
-import { SurveyQuestionType } from '../enums/survey-question-type.enum';
-import { IQuestionReport } from '../interfaces/question-report.interface';
+import { useSurveyReport } from '../api/getSurveyReport';
 
 const Wrapper = styled.section`
   margin: 3px 0;
@@ -50,52 +49,39 @@ const Header = styled.div`
     width: 120px;
   }
 `;
-// TODO: remove
-const mockedQuestions: IQuestionReport[] = [
-  {
-    question: '¿Cuantas veces vas al supermercado al mes?',
-    type: SurveyQuestionType.SIMPLE,
-    answers: [
-      { id: '1 vez', value: '5' },
-      { id: '2 veces', value: '4' },
-      { id: '3 veces o más', value: '1' },
-    ],
-  },
-  {
-    question: '¿Qué tecnologías te interesan más?',
-    type: SurveyQuestionType.MULTIPLE,
-    answers: [
-      { id: 'React', value: '15' },
-      { id: 'Angular', value: '4' },
-      { id: 'Vue', value: '12' },
-    ],
-  },
-];
 
 export const SurveyReport = () => {
-  const [questions] = useState<IQuestionReport[]>(mockedQuestions);
+  const params = useParams();
+  const { data, isLoading } = useSurveyReport({ surveyId: Number(params?.id) });
+
+  if (isLoading) return <p>Loading...</p>;
+  if (!data) return <p>Not found</p>;
 
   return (
     <Wrapper>
       <Navbar title="Survey Report" icon="pi pi-file" navigation />
       <Content>
         <Header>
-          <Title>Survey Prueba title title</Title>
-          <p>221 responses</p>
+          <Title>{data.title}</Title>
+          <p>{data.totalResponses === 0 ? 'Theres not yet responses' : `${data.totalResponses} responses`}</p>
         </Header>
 
-        <Form>
-          {questions.map((item, key) => (
-            <FormControl key={`${key}-${item.question}`}>
-              <h3>{`${key + 1}. ${item.question}`}</h3>
-              <PieChart data={item.answers} />
-            </FormControl>
-          ))}
-        </Form>
-        <Actions>
-          <Button label="Download Report - PDF" severity="danger" type="button" icon="pi pi-file-pdf" />
-          <Button label="Download Data - CSV" severity="success" type="button" icon="pi pi-file-excel" />
-        </Actions>
+        {data.totalResponses > 0 ? (
+          <>
+            <Form>
+              {data.surveyQuestions.map((item, key) => (
+                <FormControl key={`${key}-${item.id}`}>
+                  <h3>{`${key + 1}. ${item.name}`}</h3>
+                  <PieChart data={item.surveyAnswers.map((res) => ({ id: res.name, value: res.total }))} />
+                </FormControl>
+              ))}
+            </Form>
+            <Actions>
+              <Button label="Download Report - PDF" severity="danger" type="button" icon="pi pi-file-pdf" />
+              <Button label="Download Data - CSV" severity="success" type="button" icon="pi pi-file-excel" />
+            </Actions>
+          </>
+        ) : null}
       </Content>
     </Wrapper>
   );
