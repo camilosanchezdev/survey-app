@@ -159,7 +159,7 @@ export const SurveyDetail = () => {
                   label="Report"
                   type="button"
                   icon="pi pi-chart-bar"
-                  onClick={() => navigate('/app/surveys/3/report')}
+                  onClick={() => navigate(`/app/surveys/${params?.id}/report`)}
                 />
                 {survey.surveyStatusId === SurveyStatusEnum.ACTIVE ? (
                   <Button
