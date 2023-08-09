@@ -11,7 +11,7 @@ import { NotificationBell } from '../Elements/NotificationBell';
 import { ProfileButton } from '../Elements/ProfileButton';
 
 const Wrapper = styled.aside`
-  height: 100vh;
+  height: 100%;
   position: relative;
 `;
 const Menu = styled.div`

@@ -9,11 +9,14 @@ import { Sidebar } from './Sidebar';
 const Wrapper = styled.main`
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
   .sidebar {
     display: none;
-    background: white;
     grid-column: span 3 / span 3;
+    height: 100vh;
+    max-height: 100vh;
     margin: 0 10px 0 0;
     box-shadow: 5px 0px 5px 0px rgba(0, 0, 0, 0.05);
     -webkit-box-shadow: 5px 0px 5px 0px rgba(0, 0, 0, 0.05);
@@ -28,6 +31,7 @@ const Wrapper = styled.main`
   .content {
     grid-column: span 12 / span 12;
     background: #eeeeee;
+    overflow: scroll;
     @media ${Breakpoints.Tablet} {
       grid-column: span 9 / span 9;
     }
