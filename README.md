@@ -1,5 +1,7 @@
 # Survey Generator App ⚛️
 
+[![Techs](https://skillicons.dev/icons?i=react,redux,vite)](#)
+
 ## Introduction
 
 A simple application to generate surveys.
@@ -12,6 +14,7 @@ A simple application to generate surveys.
 - Nivo Charts
 - Redux Toolkit
 - Prime React
+- TypeScript
 
 #### Project Structure:
 
