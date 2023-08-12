@@ -50,8 +50,8 @@ export const LoginForm = () => {
   const [error, setError] = useState(false);
   const { register, handleSubmit } = useForm({
     defaultValues: {
-      email: '',
-      password: '',
+      email: 'test@test.com',
+      password: '123',
     },
   });
   const onSubmit: SubmitHandler<IFormInput> = async (form) => {

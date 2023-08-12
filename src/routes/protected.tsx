@@ -3,7 +3,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { MainLayout } from '@/components/Layout/MainLayout';
 import { lazyImport } from '@/utils/lazyImport';
 
-const { Dashboard } = lazyImport(() => import('@/features/dashboard'), 'Dashboard');
+// const { Dashboard } = lazyImport(() => import('@/features/dashboard'), 'Dashboard');
 const { Surveys } = lazyImport(() => import('@/features/surveys'), 'Surveys');
 const { NewSurvey } = lazyImport(() => import('@/features/surveys'), 'NewSurvey');
 const { SurveyDetail } = lazyImport(() => import('@/features/surveys'), 'SurveyDetail');
@@ -26,11 +26,12 @@ export const protectedRoutes = [
     path: '/app',
     element: <App />,
     children: [
-      { path: '', element: <Dashboard /> },
+      // { path: '', element: <Dashboard /> },
       { path: 'surveys', element: <Surveys /> },
       { path: 'surveys/new', element: <NewSurvey /> },
       { path: 'surveys/:id', element: <SurveyDetail /> },
       { path: 'surveys/:id/report', element: <SurveyReport /> },
+      { path: '', element: <Navigate to="/app/surveys" /> },
     ],
   },
   { path: '*', element: <Navigate to="/app" /> },

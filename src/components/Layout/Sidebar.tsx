@@ -102,7 +102,7 @@ export const Sidebar = ({ closeSidebar }: SidebarProps) => {
       </Logo>
       <MainMenu>
         <ul>
-          <CustomLink>
+          {/* <CustomLink>
             <NavLink
               className={({ isActive }) => (isActive ? 'active' : '')}
               to={PRIVATE_ROUTES.DASHBOARD}
@@ -112,7 +112,7 @@ export const Sidebar = ({ closeSidebar }: SidebarProps) => {
             >
               <i className="pi pi-th-large"></i> Dashboard
             </NavLink>
-          </CustomLink>
+          </CustomLink> */}
           <CustomLink>
             <NavLink
               className={({ isActive }) => (isActive ? 'active' : '')}

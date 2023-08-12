@@ -123,9 +123,10 @@ export const CreateSurveyForm = () => {
                 ))}
           </FormControl>
         ))}
-        <Button label="Add question" icon="pi pi-plus" type="button" onClick={() => setOpenQuestionFormModal(true)} />
+
         <Actions>
-          <Button label="Save as Draft" severity="warning" type="button" icon="pi pi-save" />
+          <Button label="Add question" icon="pi pi-plus" type="button" onClick={() => setOpenQuestionFormModal(true)} />
+          {/* <Button label="Save as Draft" severity="warning" type="button" icon="pi pi-save" /> */}
           <Button label="Create Survey" severity="info" type="submit" icon="pi pi-send" />
         </Actions>
       </Form>
